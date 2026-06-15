@@ -1,14 +1,14 @@
-# AromaTrace
-
-## Backend
+#AromaTrace
+## Frontend
 
 Install packages
 
 ```bash
 npm install
 ```
-Run backend
+Run fronted
 
 ```bash
-npm start
+npm run dev
 ```
+
