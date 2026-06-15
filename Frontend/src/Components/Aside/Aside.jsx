@@ -22,7 +22,7 @@ const Aside = () => {
             const result = await response.json();
             if (result.status) {
                 console.log("Logout Success");
-                window.location.reload();
+                window.location.href = "/";
             } else {
                 alert("Something went wrong! try again");
             }
