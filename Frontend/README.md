@@ -1,5 +1,4 @@
-# Shop Inventory Management MERN Project
-
+#AromaTrace
 ## Frontend
 
 Install packages
