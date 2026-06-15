@@ -1,4 +1,4 @@
-# Shop Inventory Management MERN Project
+# AromaTrace
 
 ## Backend
 
