@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import baseUrl from '../../utils/baseurl';
-import { setProducts } from '../../Redux/products/productSlice';
+//import { setProducts } from '../../Redux/products/productSlice';
 
 
 const ModalAdd = (props) => {
