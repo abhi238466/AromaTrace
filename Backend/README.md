@@ -2,6 +2,31 @@
 
 Batch Traceability and Certificate Management System
 
+## Database Choice
+
+This project uses MongoDB Atlas as the database because it provides flexible document-based storage and is suitable for managing products, users, and sales records efficiently.
+
+## Database Schema
+
+The project contains the following entities:
+
+### User
+- email
+- password
+
+### Product
+- p_name
+- p_price
+- p_stock
+- userId
+
+### Sales
+- cust_name
+- cust_email
+- cust_contact
+- cartItems
+- userId
+
 ## Backend Setup
 
 ### Install Dependencies
