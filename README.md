@@ -29,7 +29,7 @@ The project contains the following entities:
 
 ## Database Schema Diagram
 
-![Database Schema](./images/schema-diagram.png)
+![Database Schema](./images/schema_diagram.png)
 
 ## Backend Setup
 
