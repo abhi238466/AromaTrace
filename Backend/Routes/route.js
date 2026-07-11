@@ -3,12 +3,16 @@ import { getUserController, loginController, logoutController, registerControlle
 import { deleteProductController, getProductsController, insertProductController, updateProductController } from "../Controllers/productController.js";
 import authMiddleware from "../Middleware/authMiddleware.js";
 import { createNewSaleController, deleteSaleController, getSalesController } from "../Controllers/salesController.js";
+import { registerValidation, loginValidation } from "../validation.js";
+import loginLimiter from "../Middleware/rateLimiter.js";
 
 export const route = Router();
 
 // auth endpoint:
-route.post("/login", loginController);
-route.post("/register", registerController);
+// route.post("/login", loginController);
+// route.post("/register", registerController);
+route.post("/login", loginLimiter, loginValidation, loginController);
+route.post("/register", registerValidation, registerController);
 route.get("/logout", logoutController);
 route.get("/getUser",authMiddleware, getUserController);
 
