@@ -5,6 +5,7 @@ import authMiddleware from "../Middleware/authMiddleware.js";
 import { createNewSaleController, deleteSaleController, getSalesController } from "../Controllers/salesController.js";
 import { registerValidation, loginValidation } from "../validation.js";
 import loginLimiter from "../Middleware/rateLimiter.js";
+import { aiSuggestionController } from "../Controllers/aiController.js";
 
 export const route = Router();
 
@@ -15,6 +16,8 @@ route.post("/login", loginLimiter, loginValidation, loginController);
 route.post("/register", registerValidation, registerController);
 route.get("/logout", logoutController);
 route.get("/getUser",authMiddleware, getUserController);
+// AI endpoint
+route.post("/ai/suggestion",  aiSuggestionController);
 
 // product endpoint://need verifytoken
 route.get("/products",authMiddleware, getProductsController); 

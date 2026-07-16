@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,6 +11,9 @@ const ModalAdd = (props) => {
     // const dispatch = useDispatch();
 
     const { register, handleSubmit, formState: { errors } } = useForm({});
+
+    const [aiLoading, setAiLoading] = useState(false);
+    const [aiDescription, setAiDescription] = useState("");
 
     const validateP_name = (p_name) => {
         if (!(String(p_name).trim())) {
@@ -33,6 +36,63 @@ const ModalAdd = (props) => {
             return "Invalid quantity";
         };
     }
+const generateDescription = async () => {
+
+    const batchName = document.querySelector("input[name='p_name']").value;
+
+    if (!batchName) {
+        toast.error("Please enter Batch Name first");
+        return;
+    }
+
+    try {
+
+        setAiLoading(true);
+
+        const response = await fetch(`${baseUrl}/ai/suggestion`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+               prompt: `
+Generate ONE professional product description for "${batchName} Essential Oil".
+
+Requirements:
+- Use professional business English.
+- Include a short product title.
+- Include one professional paragraph.
+- Include exactly 4 bullet points under "Key Features".
+- Maximum 180 words.
+- Do NOT generate multiple options.
+- Do NOT write Option 1, Option 2 or Option 3.
+- Return only the final formatted description.
+`
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.status) {
+            setAiDescription(result.suggestion);
+            toast.success("AI Description Generated");
+        } else {
+            toast.error("AI generation failed");
+        }
+
+    } catch (error) {
+
+        console.log(error);
+        toast.error("Something went wrong");
+
+    } finally {
+
+        setAiLoading(false);
+
+    }
+};
+    
 
     const onSubmit = async (data) => {
         console.log(data);
@@ -102,7 +162,39 @@ const ModalAdd = (props) => {
                                     {...register('p_name', { validate: validateP_name })}
                                     name='p_name' placeholder="Enter batch name" className="input input-bordered w-full lg:max-w-xs" />
                             </label>
+ 
                             {errors.p_name && <p className='text-xs text-red-600 ps-2 mt-1'>{errors.p_name.message}</p>}
+
+<div className="px-2 mt-3">
+    <button
+        type="button"
+        className="btn btn-primary w-full text-white disabled:bg-primary disabled:text-white disabled:border-primary disabled:opacity-100"
+        onClick={generateDescription}
+        disabled={aiLoading}
+    >
+        {aiLoading
+            ? "🤖 Generating AI Description..."
+            : aiDescription
+                ? "🔄 Regenerate AI Description"
+                : "✨ Generate AI Description"}
+    </button>
+</div>
+
+<label className="form-control w-full px-2 mt-3">
+    <div className="label">
+        <span className="label-text font-semibold">
+            🤖 AI Generated Description
+        </span>
+    </div>
+
+    <textarea
+        className="textarea textarea-bordered w-full h-52 resize-none"
+        value={aiDescription}
+        readOnly
+        placeholder="Your AI-generated product description will appear here..."
+    />
+</label>
+
 
                             <label className="form-control w-full lg:max-w-xs px-2">
                                 <div className="label">
