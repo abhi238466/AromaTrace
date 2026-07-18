@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import baseUrl from '../../utils/baseurl';
+import ReactMarkdown from "react-markdown";
 //import { setProducts } from '../../Redux/products/productSlice';
 
 
@@ -56,19 +57,36 @@ const generateDescription = async () => {
             },
             credentials: "include",
             body: JSON.stringify({
-               prompt: `
-Generate ONE professional product description for "${batchName} Essential Oil".
+             prompt: `
+Generate a professional product description for "${batchName} Essential Oil".
 
-Requirements:
-- Use professional business English.
-- Include a short product title.
-- Include one professional paragraph.
-- Include exactly 4 bullet points under "Key Features".
-- Maximum 180 words.
-- Do NOT generate multiple options.
-- Do NOT write Option 1, Option 2 or Option 3.
-- Return only the final formatted description.
+IMPORTANT:
+Return ONLY valid Markdown.
+
+Use EXACTLY this format:
+
+# Product Title
+
+## Description
+
+Write one paragraph (80-100 words).
+
+## Key Benefits
+
+- Benefit 1
+- Benefit 2
+- Benefit 3
+- Benefit 4
+
+Rules:
+- Use Markdown headings (# and ##).
+- Use bullet points (-).
+- Do NOT return plain text.
+- Do NOT write "Option 1".
+- Do NOT explain anything outside the format.
+- Use simple professional English.
 `
+
             })
         });
 
@@ -182,17 +200,25 @@ Requirements:
 
 <label className="form-control w-full px-2 mt-3">
     <div className="label">
-        <span className="label-text font-semibold">
-            🤖 AI Generated Description
-        </span>
+        <span className="label-text font-bold text-base">
+   🤖 AI Product Description
+</span>
     </div>
 
-    <textarea
-        className="textarea textarea-bordered w-full h-52 resize-none"
-        value={aiDescription}
-        readOnly
-        placeholder="Your AI-generated product description will appear here..."
-    />
+
+ <div className="border rounded-lg p-4 h-60 overflow-y-auto bg-white w-full">
+    {aiDescription ? (
+        <div className="prose prose-sm max-w-none">
+            <ReactMarkdown>
+                {aiDescription}
+            </ReactMarkdown>
+        </div>
+    ) : (
+        <p className="text-gray-400">
+            Click "Generate AI Description" to create a professional product description.
+        </p>
+    )}
+</div>
 </label>
 
 
