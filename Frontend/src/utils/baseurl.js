@@ -1,2 +1,2 @@
-const baseUrl = "http://localhost:8000/api"
+const baseUrl = "https://aromatrace-ghkh.onrender.com/api";
 export default baseUrl;
