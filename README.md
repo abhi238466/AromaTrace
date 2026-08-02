@@ -341,6 +341,19 @@ All REST APIs were successfully tested using Postman.
 - Loading & Error State Handling
 - Network API Verification
 
+## Week 9
+
+- Deployed Frontend on Vercel
+- Deployed Backend on Render
+- Configured Production Environment Variables
+- Updated CORS for Production Deployment
+- Connected Live Frontend with Live Backend
+- Verified Authentication on Production
+- Verified CRUD Operations on Live Deployment
+- Verified AI Product Description Generator on Live App
+- Updated README with Live Deployment Details
+- End-to-End Testing Completed on Public URL
+
 ---
 
 # Future Improvements
@@ -355,6 +368,24 @@ All REST APIs were successfully tested using Postman.
 - AI Sales Insights
 - React Error Boundary
 - Performance Optimization (useMemo & useCallback)
+
+---
+
+# Live Deployment
+
+## Frontend
+
+
+
+## Backend
+
+
+
+## Known Limitations (Free Tier)
+
+- Render free tier may spin down after a period of inactivity.
+- The first request after inactivity may take 30–60 seconds to respond.
+
 ---
 
 # Author
