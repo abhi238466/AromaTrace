@@ -374,8 +374,7 @@ All REST APIs were successfully tested using Postman.
 # Live Deployment
 
 ## Frontend
-
-
+https://aroma-trace-gray.vercel.app
 
 ## Backend
 https://aromatrace-ghkh.onrender.com
