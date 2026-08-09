@@ -1,6 +1,6 @@
 # AromaTrace
 
-Batch Traceability and Certificate Management System
+**Batch Traceability and Certificate Management System**
 
 A modern full-stack inventory and batch traceability application developed as part of the **TBI GEU SIP 2026 – AI-Assisted Full Stack Development Internship**.
 
@@ -117,11 +117,11 @@ AROMATRACE
 
 ---
 
-# AI Feature (Week 7)
+# AI Feature
 
-The application includes an AI-powered Product Description Generator using the **Google Gemini API**.
+The application includes an **AI-powered Product Description Generator** using the **Google Gemini API**.
 
-### AI Workflow
+## AI Workflow
 
 - User enters the product name.
 - Frontend sends the request to the backend.
@@ -129,7 +129,7 @@ The application includes an AI-powered Product Description Generator using the *
 - AI generates a professional product description.
 - The generated description is displayed instantly inside the application.
 
-### AI Features
+## AI Features
 
 - Generate AI Description
 - Regenerate AI Description
@@ -139,83 +139,271 @@ The application includes an AI-powered Product Description Generator using the *
 
 ---
 
-# Database Choice
+# Database
 
-This project uses MongoDB Atlas as the database because it provides flexible document-based storage and is suitable for managing products, users, and sales records efficiently.
+AromaTrace uses **MongoDB Atlas** with **Mongoose ODM**.
+
+## Why MongoDB Atlas?
+
+- Flexible document-based structure
+- Cloud-based database
+- Easy integration with Node.js and Express
+- Suitable for product, user and sales data
+- Easy development and scalability
+
+## Database Schema
+
+### User
+
+```text
+User
+├── email
+├── password
+├── products
+└── sales
+```
+
+### Product / Batch
+
+```text
+Product
+├── p_name
+├── p_price
+├── p_stock
+└── userId
+```
+
+### Sales
+
+```text
+Sales
+├── cust_name
+├── cust_email
+├── cust_contact
+├── cartItems
+└── userId
+```
+
+## Schema Diagram
+
+![AromaTrace Database Schema](./images/schema_diagram.png)
 
 ---
 
-# Database Schema
+# REST API Documentation
 
-The project contains the following entities.
+All application APIs are exposed through the **`/api`** base path.
 
-## User
+## Authentication APIs
 
-- email
-- password
+### Register
 
-## Product
+**Endpoint:** `POST /api/register`
 
-- p_name
-- p_price
-- p_stock
-- userId
+Registers a new user.
 
-## Sales
+**Example Request:**
 
-- cust_name
-- cust_email
-- cust_contact
-- cartItems
-- userId
+```json
+{
+  "email": "user@example.com",
+  "password": "YourPassword@123"
+}
+```
+
+**Example Response:**
+
+```json
+{
+  "status": true,
+  "message": "User registered successfully"
+}
+```
+
+### Login
+
+**Endpoint:** `POST /api/login`
+
+Authenticates a registered user and creates an authentication cookie.
+
+**Example Request:**
+
+```json
+{
+  "email": "user@example.com",
+  "password": "YourPassword@123"
+}
+```
+
+**Example Response:**
+
+```json
+{
+  "status": true,
+  "message": "Login successful"
+}
+```
+
+### Get User
+
+**Endpoint:** `GET /api/getUser`
+
+**Authentication:** Required
+
+Returns authenticated user information.
+
+### Logout
+
+**Endpoint:** `GET /api/logout`
+
+Clears the authentication cookie.
 
 ---
 
-# Database Schema Diagram
+# Product / Batch APIs
 
-![Database Schema](./images/schema_diagram.png)
+### Get Products
+
+**Endpoint:** `GET /api/products`
+
+**Authentication:** Required
+
+Returns products/batches belonging to the authenticated user.
+
+### Insert Product / Batch
+
+**Endpoint:** `POST /api/insert`
+
+**Authentication:** Required
+
+Creates a new product/batch.
+
+**Example Request:**
+
+```json
+{
+  "p_name": "Lavender Oil Batch A",
+  "p_price": 1000,
+  "p_stock": 1200
+}
+```
+
+**Example Response:**
+
+```json
+{
+  "status": true,
+  "message": "Product inserted"
+}
+```
+
+### Update Product
+
+**Endpoint:** `POST /api/update`
+
+**Authentication:** Required
+
+Updates product/batch information.
+
+### Delete Product
+
+**Endpoint:** `POST /api/delete`
+
+**Authentication:** Required
+
+Deletes a product/batch.
 
 ---
 
-# REST API Endpoints
+# Sales APIs
 
-## Authentication
+### Get Sales
 
-- POST /login
-- POST /register
-- POST /google-login
+**Endpoint:** `GET /api/getsales`
 
-## Products
+**Authentication:** Required
 
-- GET /products
-- GET /products/:id
-- POST /products
-- PUT /products/:id
-- DELETE /products/:id
+Returns sales records for the authenticated user.
 
-## Sales
+### Create Sale
 
-- GET /sales
-- POST /sales
-- DELETE /sales/:id
+**Endpoint:** `POST /api/createsales`
 
-## AI
+**Authentication:** Required
 
-- POST /ai/suggestion
+Creates a new sales record.
+
+### Delete Sale
+
+**Endpoint:** `POST /api/deletesales`
+
+**Authentication:** Required
+
+Deletes a sales record.
+
+---
+
+# AI API
+
+### Generate Product Description
+
+**Endpoint:** `POST /api/ai/suggestion`
+
+Generates an AI-assisted product description using **Google Gemini**.
+
+**Example Request:**
+
+```json
+{
+  "prompt": "Generate a professional product description for Lavender Essential Oil."
+}
+```
+
+---
+
+# API Testing
+
+The REST APIs were tested using **Postman**.
+
+## Tested Functionality
+
+- User Registration
+- User Login
+- Product Creation
+- Product Retrieval
+- Product Update
+- Product Deletion
+- Sales Creation
+- Sales Retrieval
+- Sales Deletion
+- AI Product Description Generation
+
+## Major API Demonstrations
+
+- `POST /api/login`
+- `POST /api/insert`
 
 ---
 
 # Backend Setup
 
-## Install Dependencies
+## 1. Clone the Repository
 
 ```bash
+git clone https://github.com/abhi238466/AromaTrace.git
+cd AromaTrace
+```
+
+## 2. Setup Backend
+
+```bash
+cd Backend
 npm install
 ```
 
-## Create .env File
+## 3. Configure Environment Variables
 
-Create a `.env` file inside the **Backend** folder and add:
+Create a **`.env`** file inside the `Backend` folder.
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
@@ -227,7 +415,9 @@ GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
-## Run Backend
+> **Important:** Never commit the real `.env` file, database credentials, API keys, client secrets, or other sensitive information to GitHub.
+
+## 4. Run Backend
 
 ```bash
 npm start
@@ -237,122 +427,222 @@ npm start
 
 # Frontend Setup
 
-## Install Dependencies
+Open a new terminal.
+
+## 1. Navigate to Frontend
+
+```bash
+cd Frontend
+```
+
+## 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-## Run Frontend
+## 3. Run Development Server
 
 ```bash
 npm run dev
 ```
 
+The frontend will be available at:
+
+`http://localhost:5173`
+
 ---
 
-# API Testing
+# Architecture
 
-All REST APIs were successfully tested using Postman.
+```text
+                         User
+                           │
+                           ▼
+                 ┌─────────────────┐
+                 │  React + Vite   │
+                 │    Frontend     │
+                 └────────┬────────┘
+                          │
+                          ▼
+                 ┌─────────────────┐
+                 │ Node.js +       │
+                 │ Express REST API│
+                 └────────┬────────┘
+                          │
+                 ┌────────┴─────────┐
+                 │                  │
+                 ▼                  ▼
+        ┌────────────────┐  ┌────────────────┐
+        │ MongoDB Atlas  │  │ Google Gemini  │
+        │    Database    │  │     AI API     │
+        └────────────────┘  └────────────────┘
+```
 
-## Authentication APIs
+---
 
-- Login
-- Register
-- Google Login
+# Production Deployment
 
-## Product APIs
+AromaTrace is deployed using cloud hosting services.
 
-- Add Product
-- Update Product
-- Delete Product
-- View Products
+## Frontend
 
-## Sales APIs
+**Hosting:** Vercel
 
-- Create Sale
-- View Sales
-- Delete Sale
+**Live URL:**  
+https://aroma-trace-gray.vercel.app
 
-## AI APIs
+## Backend
 
-- Generate Product Description
+**Hosting:** Render
+
+**Live URL:**  
+https://aromatrace-ghkh.onrender.com
+
+## Database
+
+**Database:** MongoDB Atlas
+
+The production backend is connected to MongoDB Atlas.
+
+---
+
+# Production Architecture
+
+```text
+                         User
+                           │
+                           ▼
+                    ┌────────────┐
+                    │   Vercel   │
+                    │   React    │
+                    │  Frontend  │
+                    └─────┬──────┘
+                          │
+                          ▼
+                    ┌────────────┐
+                    │   Render   │
+                    │ Node.js +  │
+                    │  Express   │
+                    │    API     │
+                    └─────┬──────┘
+                          │
+                 ┌────────┴─────────┐
+                 │                  │
+                 ▼                  ▼
+        ┌────────────────┐  ┌────────────────┐
+        │ MongoDB Atlas  │  │ Google Gemini  │
+        │    Database    │  │     AI API     │
+        └────────────────┘  └────────────────┘
+```
+
+Production CORS configuration and authentication cookies were configured to allow the deployed frontend and backend to communicate securely.
 
 ---
 
 # Internship Progress
 
-## Week 1
+## Week 1 — Project Planning
 
-- Project Planning
-- GitHub Repository Setup
+- Project planning
+- Problem identification
+- GitHub repository setup
+- Project brief preparation
 
-## Week 2
+## Week 2 — Frontend Foundation
 
-- React + Vite Setup
-- Tailwind CSS Integration
-- Reusable Components
+- React + Vite setup
+- Tailwind CSS integration
+- Initial frontend structure
+- Reusable components
 
-## Week 3
+## Week 3 — UI Design
 
-- UI Improvements
-- Responsive Design
-- Component Library
+- UI improvements
+- Responsive design
+- Component library
+- Application wireframes
 
-## Week 4
+## Week 4 — Backend & API Integration
 
-- Express Backend
-- REST API Development
-- Frontend & Backend Integration
+- Express backend development
+- REST API development
+- Postman API testing
+- Frontend-backend integration
 
-## Week 5
+## Week 5 — Database & CRUD
 
-- MongoDB Atlas Integration
-- Mongoose Models
-- CRUD Operations
-- Database Schema Design
-- Postman API Testing
+- MongoDB Atlas integration
+- Mongoose models
+- CRUD operations
+- Database schema design
+- API verification
 
-## Week 6
+## Week 6 — Security & Validation
 
-- JWT Authentication
-- Google Login Integration
+- JWT authentication
+- OAuth integration
 - Express Validator
-- API Rate Limiting
+- API rate limiting
+- Authentication flow improvements
 
-## Week 7
+## Week 7 — AI Integration
 
-- Google Gemini API Integration
-- AI Product Description Generator
-- Prompt Engineering
-- Markdown Rendering
-- Loading State
-- Error Handling
-- PROMPTS.md Documentation
+- Google Gemini API integration
+- AI product description generator
+- Prompt engineering
+- Markdown rendering
+- Loading states
+- Error handling
+- `PROMPTS.md` documentation
 
-## Week 8
+## Week 8 — Application Integration
 
-- Connected Frontend with Live Backend APIs
-- Authenticated Dashboard
-- Complete CRUD User Flows
-- Frontend Validation & User Feedback
-- AI Feature UI Polish
-- Responsive UI for Mobile, Tablet & Desktop
-- Loading & Error State Handling
-- Network API Verification
+- Connected frontend with backend APIs
+- Authenticated dashboard
+- Complete CRUD user flows
+- Frontend validation
+- User feedback improvements
+- AI feature UI polish
+- Responsive UI
+- Loading and error handling
+- Network API verification
 
-## Week 9
+## Week 9 — Production Deployment
 
-- Deployed Frontend on Vercel
-- Deployed Backend on Render
-- Configured Production Environment Variables
-- Updated CORS for Production Deployment
-- Connected Live Frontend with Live Backend
-- Verified Authentication on Production
-- Verified CRUD Operations on Live Deployment
-- Verified AI Product Description Generator on Live App
-- Updated README with Live Deployment Details
-- End-to-End Testing Completed on Public URL
+- Frontend deployed on Vercel
+- Backend deployed on Render
+- Production environment variables configured
+- Production CORS configured
+- Live frontend connected with live backend
+- Production authentication verified
+- CRUD operations verified on live deployment
+- AI feature verified on live deployment
+- README deployment details updated
+- End-to-end testing completed
+
+## Week 10 — Capstone & Finalization
+
+- Final application review
+- UI and responsive behaviour verification
+- Critical bug verification and fixes
+- Production deployment verification
+- Comprehensive project documentation
+- Final README preparation
+- API documentation
+- Architecture documentation
+- Final repository cleanup
+- Final project submission preparation
+
+---
+
+# Known Limitations
+
+- Render free-tier services may spin down after inactivity.
+- The first backend request after inactivity may take some time to respond.
+- The application currently does not include role-based access control.
+- Advanced analytics are not currently implemented.
+- Product image upload is not currently implemented.
 
 ---
 
@@ -363,27 +653,51 @@ All REST APIs were successfully tested using Postman.
 - Product Image Upload
 - Batch QR Code Generation
 - Email Notifications
-- Inventory Reports
+- Advanced Inventory Reports
 - AI Batch Quality Analysis
 - AI Sales Insights
 - React Error Boundary
-- Performance Optimization (useMemo & useCallback)
+- Performance Optimization using `useMemo` and `useCallback`
 
 ---
 
-# Live Deployment
+# Credits & Acknowledgements
 
-## Frontend
+This project was developed as part of the:
+
+**TBI GEU SIP 2026 – AI-Assisted Full Stack Web Development Internship**
+
+Special thanks to the **TBI-GEU Skill Development Team** for the internship guidance, weekly tasks and learning resources.
+
+## Technologies & Resources
+
+- React
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Google Gemini API
+- Vercel
+- Render
+- Postman
+- GitHub
+
+AI-assisted development and debugging tools were used during development where appropriate.
+
+---
+
+# Final Project Links
+
+## 🌐 Live Frontend
+
 https://aroma-trace-gray.vercel.app
 
-## Backend
+## 🔗 Backend API
+
 https://aromatrace-ghkh.onrender.com
 
+## 💻 GitHub Repository
 
-## Known Limitations (Free Tier)
-
-- Render free tier may spin down after a period of inactivity.
-- The first request after inactivity may take 30–60 seconds to respond.
+https://github.com/abhi238466/AromaTrace
 
 ---
 
@@ -393,6 +707,8 @@ https://aromatrace-ghkh.onrender.com
 
 **Intern ID:** TBI-26100937
 
-**TBI GEU SIP 2026**
+**University:** Graphic Era University
 
-**AI-Assisted Full Stack Development Internship**
+**Program:** TBI-GEU SIP 2026
+
+**Domain:** AI-Assisted Full Stack Web Development
