@@ -1,7 +1,5 @@
 # AromaTrace
 
-**Batch Traceability and Certificate Management System**
-
 A modern full-stack inventory and batch traceability application developed as part of the **TBI GEU SIP 2026 – AI-Assisted Full Stack Development Internship**.
 
 The application enables businesses to manage products, track inventory, maintain sales records, generate invoices, and create AI-powered product descriptions. It is built with a React frontend, Express REST API, and MongoDB Atlas database.
